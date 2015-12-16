@@ -1,0 +1,2 @@
+# AndroidMavenDemo
+本demo是关于在android中使用maven
