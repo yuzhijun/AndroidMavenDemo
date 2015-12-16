@@ -1,0 +1,154 @@
+# to define the proguard.config property as described in that file.  
+#  
+# Add project specific ProGuard rules here.  
+# By default, the flags in this file are appended to flags specified  
+# in ${sdk.dir}/tools/proguard/proguard-android.txt  
+# You can edit the include path and order by changing the ProGuard  
+# include property in project.properties.  
+#  
+# For more details, see  
+#   http://developer.android.com/guide/developing/tools/proguard.html  
+  
+# Add any project specific keep options here:  
+  
+# If your project uses WebView with JS, uncomment the following  
+# and specify the fully qualified class name to the JavaScript interface  
+# class:  
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {  
+#   public *;  
+#}  
+  
+  
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*  
+# ----------------------------------    
+#  通过指定数量的优化能执行    
+#  -optimizationpasses n    
+# ----------------------------------   
+-optimizationpasses 5  
+#确定统一的混淆类的成员名称来增加混淆   
+-useuniqueclassmembernames  
+  
+#优化时允许访问并修改有修饰符的类和类的成员     
+-allowaccessmodification   
+  
+  
+#不优化泛型和反射  
+-keepattributes Signature  
+-keepattributes *Annotation*  
+-keepattributes *JavascriptInterface*    
+-renamesourcefileattribute SourceFile  
+-adaptresourcefilenames **.properties  
+-adaptresourcefilecontents **.properties,src/META-INF/MANIFEST.MF,META-INF/MANIFEST.MF,META-INF/LICENSE.txt,META-INF/NOTICE.txt  
+  
+  
+  
+# webview + js  
+# keep 使用 webview 的类  
+-keepclassmembers class com.special.demo.HelloAndroidActivity {  
+   public *;  
+}  
+# keep 使用 webview 的类的所有的内部类  
+-keepclassmembers   class  com.special.demo.HelloAndroidActivity$*{  
+    *;  
+}  
+  
+# ----------------------------------    
+#   混淆时不会产生形形色色的类名     
+#   -dontusemixedcaseclassnames    
+# ----------------------------------   
+-dontusemixedcaseclassnames  
+#      指定不去忽略非公共的库类    
+#  -dontskipnonpubliclibraryclasses    
+# ----------------------------------   
+-dontskipnonpubliclibraryclasses  
+# ----------------------------------    
+#       不预校验    
+#    -dontpreverify    
+# ----------------------------------    
+-dontpreverify  
+ #这1句是屏蔽警告，脚本中把这行注释去掉  
+-ignorewarnings  
+# ----------------------------------    
+#      输出生成信息    
+#       -verbose    
+# ----------------------------------    
+-verbose    
+    
+#混淆时应用侵入式重载     
+-overloadaggressively     
+     
+#优化时允许访问并修改有修饰符的类和类的成员     
+-allowaccessmodification    
+#确定统一的混淆类的成员名称来增加混淆     
+-useuniqueclassmembernames    
+  
+#优化  
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*  
+  
+  
+-keep public class * extends android.app.Activity  
+-keep public class * extends android.app.Application  
+-keep public class * extends android.app.Service  
+-keep public class * extends android.content.BroadcastReceiver  
+-keep public class * extends android.content.ContentProvider  
+-keep public class * extends android.app.backup.BackupAgentHelper  
+-keep public class * extends android.preference.Preference  
+-keep public class com.android.vending.licensing.ILicensingService  
+  
+  
+  
+#第三分库不混淆  
+-keep class android.support.v4.** {*;}  
+-keep class org.apache.http.entity.mime.** {*;}  
+  
+#使用 gson 需要的配置  
+-keep class com.google.gson.JsonObject { *; }  
+  
+  
+  
+  
+-dontwarn android.support.v4.**  
+  
+  
+  
+-keepclasseswithmembers class * {  
+    public <init>(android.content.Context,android.util.AttributeSet);  
+}  
+  
+-keepclasseswithmembers class * {  
+    public <init>(android.content.Context,android.util.AttributeSet,int);  
+}  
+  
+-keepclassmembers class * extends android.app.Activity {  
+    public void *(android.view.View);  
+}  
+  
+-keep class * extends android.os.Parcelable {  
+    public static final android.os.Parcelable$Creator *;  
+}  
+  
+# Keep - Library. Keep all public  classes, fields, and methods.  
+-keep public class * {  
+    public <fields>;  
+    public  <methods>;  
+}  
+# Keep - Library. Keep all public and protected classes, fields, and methods.  
+#-keep public class * {  
+#   public protected <fields>;  
+#    public protected <methods>;  
+#}  
+  
+# Also keep - Enumerations. Keep the special static methods that are required in  
+# enumeration classes.  
+-keepclassmembers enum  * {  
+    public static **[] values();  
+    public static ** valueOf(java.lang.String);  
+}  
+  
+# Keep names - Native method names. Keep all native class/method names.  
+-keepclasseswithmembers,allowshrinking class * {  
+    native <methods>;  
+}  
+  
+  
+#-libraryjars /Users/jack/android-sdks/platforms/android-17/android.jar  
